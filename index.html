@@ -77,10 +77,11 @@
       width: 100%;
       margin-bottom: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 15px #ffd700;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
       object-fit: cover;
       height: auto;
       display: block;
+      max-height: 250px; /* Altura máxima para a imagem */
     }
     @media(max-width: 450px) {
       body {
@@ -102,8 +103,9 @@
 
   <h1>Participe do Projeto Motorhome</h1>
 
-
-<img src="motorhome_praia.jpg" alt="Motorhome estacionado na praia" class="sua-classe-css">
+  <!-- Imagem com fallback caso não carregue -->
+  <img src="motorhome_praia.jpg" alt="Motorhome estacionado na praia" class="imagem-topo" 
+       onerror="this.style.display='none'">
 
   <form id="formulario">
     <input type="text" name="nome" placeholder="Seu nome completo" required />
@@ -125,7 +127,11 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
-
+      
+      // Feedback visual durante o envio
+      mensagem.style.color = "#ffd700";
+      mensagem.textContent = "Enviando...";
+      
       try {
         const resposta = await fetch("https://script.google.com/macros/s/AKfycbwdUEeRr9TvsAdDG29db8WTLvvnumxhCYj5mDFuL7xx2_P1zDgvYpnumHpDEFhKdyG2/exec", {
           method: "POST",
@@ -137,10 +143,10 @@
           mensagem.textContent = "Dados enviados com sucesso!";
           form.reset();
         } else {
-          mensagem.style.color = "tomato";
-          mensagem.textContent = "Erro ao enviar. Tente novamente.";
+          throw new Error('Erro na resposta do servidor');
         }
       } catch (error) {
+        console.error('Erro:', error);
         mensagem.style.color = "tomato";
         mensagem.textContent = "Erro ao enviar. Tente novamente.";
       }
