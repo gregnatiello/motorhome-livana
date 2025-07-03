@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Livana · Cotas de Motorhome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0; padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header h2 {
+      font-size: 28px;
+      color: #ffd700;
+      margin: 10px 0;
+    }
+    header p {
+      font-size: 16px;
+      color: #ccc;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+    h1 { 
+      color: #ffd700; 
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    form {
+      background: #222;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #000;
+      max-width: 400px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #ffd700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #e6c200;
+    }
+    .message {
+      margin-top: 10px;
+      min-height: 24px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .imagem-topo {
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #ffd700;
+      object-fit: cover;
+      height: auto;
+      display: block;
+    }
+    @media(max-width: 450px) {
+      body {
+        padding: 15px;
+      }
+      .imagem-topo, form {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Livana · Cotas de Motorhome Artesanal</h2>
+    <p>Estamos fazendo uma pesquisa de mercado para validar um projeto de cotas compartilhadas para motorhomes artesanais. 
+    Nossa equipe possui experiência comprovada na montagem de motorhomes personalizados e queremos ouvir pessoas interessadas 
+    em uma forma inteligente, econômica e confortável de viver novas experiências sobre rodas.</p>
+  </header>
+
+  <h1>Participe do Projeto Motorhome</h1>
+
+  <img 
+    src="images/motorhome_praia.jpg"
+    alt="Motorhome na praia paradisíaca" 
+    class="imagem-topo" 
+  />
+
+  <form id="formulario">
+    <input type="text" name="nome" placeholder="Seu nome completo" required />
+    <input type="tel" name="telefone" placeholder="WhatsApp com DDD" required />
+    <select name="interesse" required>
+      <option value="">Selecione seu interesse</option>
+      <option value="X - Econômica">Cota Econômica - Até 20k </option>
+      <option value="Y - Conforto">Cota Conforto - de 21k a 50k </option>
+      <option value="Z - Luxo">Cota Luxo - acima de 50k</option>
+    </select>
+    <button type="submit">Quero saber mais!</button>
+    <p class="message" id="mensagem"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('formulario');
+    const mensagem = document.getElementById('mensagem');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const resposta = await fetch("https://script.google.com/macros/s/AKfycbwdUEeRr9TvsAdDG29db8WTLvvnumxhCYj5mDFuL7xx2_P1zDgvYpnumHpDEFhKdyG2/exec", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (resposta.ok) {
+          mensagem.style.color = "limegreen";
+          mensagem.textContent = "Dados enviados com sucesso!";
+          form.reset();
+        } else {
+          mensagem.style.color = "tomato";
+          mensagem.textContent = "Erro ao enviar. Tente novamente.";
+        }
+      } catch (error) {
+        mensagem.style.color = "tomato";
+        mensagem.textContent = "Erro ao enviar. Tente novamente.";
+      }
+    });
+  </script>
+</body>
+</html>
